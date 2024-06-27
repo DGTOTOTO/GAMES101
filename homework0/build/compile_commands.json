@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/dgtototo/Dev/GAMES101/homework0/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -I/usr/local/include/eigen3 -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.0 -o CMakeFiles/main.dir/main.cpp.o -c /Users/dgtototo/Dev/GAMES101/homework0/main.cpp",
+  "file": "/Users/dgtototo/Dev/GAMES101/homework0/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.o"
+}
+]
