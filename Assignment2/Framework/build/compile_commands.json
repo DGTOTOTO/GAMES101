@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/Users/dgtototo/Dev/GAMES101/Assignment2/Framework/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -I/usr/local/include -I\"/**\" -I/usr/local/include/eigen3 -isystem /usr/local/Cellar/opencv/4.9.0_11/include/opencv4 -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.0 -o CMakeFiles/Rasterizer.dir/main.cpp.o -c /Users/dgtototo/Dev/GAMES101/Assignment2/Framework/main.cpp",
+  "file": "/Users/dgtototo/Dev/GAMES101/Assignment2/Framework/main.cpp",
+  "output": "CMakeFiles/Rasterizer.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/dgtototo/Dev/GAMES101/Assignment2/Framework/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -I/usr/local/include -I\"/**\" -I/usr/local/include/eigen3 -isystem /usr/local/Cellar/opencv/4.9.0_11/include/opencv4 -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.0 -o CMakeFiles/Rasterizer.dir/rasterizer.cpp.o -c /Users/dgtototo/Dev/GAMES101/Assignment2/Framework/rasterizer.cpp",
+  "file": "/Users/dgtototo/Dev/GAMES101/Assignment2/Framework/rasterizer.cpp",
+  "output": "CMakeFiles/Rasterizer.dir/rasterizer.cpp.o"
+},
+{
+  "directory": "/Users/dgtototo/Dev/GAMES101/Assignment2/Framework/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -I/usr/local/include -I\"/**\" -I/usr/local/include/eigen3 -isystem /usr/local/Cellar/opencv/4.9.0_11/include/opencv4 -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.0 -o CMakeFiles/Rasterizer.dir/Triangle.cpp.o -c /Users/dgtototo/Dev/GAMES101/Assignment2/Framework/Triangle.cpp",
+  "file": "/Users/dgtototo/Dev/GAMES101/Assignment2/Framework/Triangle.cpp",
+  "output": "CMakeFiles/Rasterizer.dir/Triangle.cpp.o"
+}
+]

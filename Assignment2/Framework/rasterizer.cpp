@@ -40,9 +40,29 @@ auto to_vec4(const Eigen::Vector3f& v3, float w = 1.0f)
 }
 
 
+
 static bool insideTriangle(int x, int y, const Vector3f* _v)
 {   
     // TODO : Implement this function to check if the point (x, y) is inside the triangle represented by _v[0], _v[1], _v[2]
+    Eigen::Vector3f P(x+0.5f, y+0.5f, 1.0f);
+
+    const Eigen::Vector3f& A = _v[0];
+    const Eigen::Vector3f& B = _v[1];
+    const Eigen::Vector3f& C = _v[2];
+
+    Eigen::Vector3f AB = B - A;
+    Eigen::Vector3f BC = C - B;
+    Eigen::Vector3f CA = A - C;
+
+    Eigen::Vector3f AP = P - A;
+    Eigen::Vector3f BP = P - B;
+    Eigen::Vector3f CP = P - C;
+
+    float z1 = AB.cross(AP).z();
+    float z2 = BC.cross(BP).z();
+    float z3 = CA.cross(CP).z();
+    
+    return (z1 > 0 && z2 > 0 && z3 > 0) || (z1 < 0 && z2 < 0 && z3 <0);
 }
 
 static std::tuple<float, float, float> computeBarycentric2D(float x, float y, const Vector3f* v)
@@ -55,6 +75,9 @@ static std::tuple<float, float, float> computeBarycentric2D(float x, float y, co
 
 void rst::rasterizer::draw(pos_buf_id pos_buffer, ind_buf_id ind_buffer, col_buf_id col_buffer, Primitive type)
 {
+    // main 函数调用：r.draw(pos_id, ind_id, col_id, rst::Primitive::Triangle);
+    // 位置；索引；颜色；类型
+
     auto& buf = pos_buf[pos_buffer.pos_id];
     auto& ind = ind_buf[ind_buffer.ind_id];
     auto& col = col_buf[col_buffer.col_id];
@@ -63,19 +86,24 @@ void rst::rasterizer::draw(pos_buf_id pos_buffer, ind_buf_id ind_buffer, col_buf
     float f2 = (50 + 0.1) / 2.0;
 
     Eigen::Matrix4f mvp = projection * view * model;
+    
+    // 对于每一个索引
     for (auto& i : ind)
     {
+        // 三角形 t
         Triangle t;
+        // v：物体
         Eigen::Vector4f v[] = {
                 mvp * to_vec4(buf[i[0]], 1.0f),
                 mvp * to_vec4(buf[i[1]], 1.0f),
                 mvp * to_vec4(buf[i[2]], 1.0f)
         };
-        //Homogeneous division
+        // Homogeneous division
+        // 
         for (auto& vec : v) {
             vec /= vec.w();
         }
-        //Viewport transformation
+        // Viewport transformation
         for (auto & vert : v)
         {
             vert.x() = 0.5*width*(vert.x()+1.0);
@@ -107,13 +135,43 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t) {
     auto v = t.toVector4();
     
     // TODO : Find out the bounding box of current triangle.
-    // iterate through the pixel and find if the current pixel is inside the triangle
+    float x_min, x_max, y_min, y_max;
+    
+    x_min = y_min = INT_MAX;
+    x_max = y_max = INT_MIN;
+    
+    // 一组是 12 个数，分别是三个顶点的 {x, y, z, 1}
+    // 取 x、y、z 位置的最大最小值
+    
+    for (auto i = 0; i != 3; i++) {
+        // 遍历三个顶点（ index of i：0， 1， 2）
+        const Vector3f& p = t.v[i]; // p: 该顶点
 
-    // If so, use the following code to get the interpolated z value.
-    //auto[alpha, beta, gamma] = computeBarycentric2D(x, y, t.v);
-    //float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
-    //float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
-    //z_interpolated *= w_reciprocal;
+        x_min = std::min(x_min, p.x());
+        x_max = std::max(x_max, p.x());
+        y_min = std::min(y_min, p.y());
+        y_max = std::max(y_max, p.y());
+    }
+
+    // iterate through the pixel and find if the current pixel is inside the triangle
+    for (auto i = floor(x_min); i != ceil(x_max); i++) {
+        for (auto j = floor(y_min); j != ceil(y_max); j++) {
+            if(!insideTriangle(i, j, t.v)) continue;
+            // If so, use the following code to get the interpolated z value.
+            auto[alpha, beta, gamma] = computeBarycentric2D(i, j, t.v);
+            float w_reciprocal = 1.0/(alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
+            float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
+            z_interpolated *= w_reciprocal;
+            
+            // 深度判断
+            int buf_ind = get_index(i, j);
+            if (z_interpolated >= depth_buf[buf_ind]) continue;
+            depth_buf[buf_ind] = z_interpolated;
+
+            // 绘至画面
+            set_pixel(Eigen::Vector3f(i, j, 1), t.getColor());
+        }
+    }
 
     // TODO : set the current pixel (use the set_pixel function) to the color of the triangle (use getColor function) if it should be painted.
 }
