@@ -5,6 +5,7 @@ find_package(OpenCV REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 
+include_directories(/usr/local/include ./include)
 include_directories(/usr/local/include)
 include_directories(${workspaceFolder}/**)
 include_directories(/usr/local/include/eigen3)

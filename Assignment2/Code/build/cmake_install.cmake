@@ -1,4 +1,4 @@
-# Install script for directory: /Users/dgtototo/Dev/GAMES101/Assignment2/Framework
+# Install script for directory: /Users/dgtototo/Dev/GAMES101/Assignment2/Code
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/dgtototo/Dev/GAMES101/Assignment2/Framework/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/dgtototo/Dev/GAMES101/Assignment2/Code/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

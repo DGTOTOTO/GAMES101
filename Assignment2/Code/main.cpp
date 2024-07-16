@@ -60,8 +60,8 @@ Eigen::Matrix4f get_final_matrix(float l, float r, float b, float t, float n,
 
 Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float zNear, float zFar) {
     // TODO: Copy-paste your implementation from the previous assignment.
-      // 垂直可视角（fov），近平面宽比，近点，远点
-  // Students will implement this function
+    // 垂直可视角（fov），近平面宽比，近点，远点
+    // Students will implement this function
 
   Eigen::Matrix4f projection = Eigen::Matrix4f::Identity();
 
@@ -71,7 +71,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
 
   projection = perspective_to_orthographic(zNear, zFar); // 转换为正交投影
 
-  float angle = eye_fov / 180.0 * MY_PI; // 转换成弧度
+  float angle = eye_fov / 180.0 * MY_PI; // 转换成弧度 
 
   // 从可视角、近平面宽比到小长方体（l, r, b, t, f, n）
   float t = zNear * std::tan(angle / 2);
@@ -83,8 +83,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
   return projection;
 }
 
-int main(int argc, const char** argv)
-{
+int main(int argc, const char** argv) {
     float angle = 0; // 旋转角度
     bool command_line = false;
     std::string filename = "output.png";
@@ -137,8 +136,7 @@ int main(int argc, const char** argv)
     int key = 0;
     int frame_count = 0;
 
-    if (command_line)
-    {
+    if (command_line) {
         r.clear(rst::Buffers::Color | rst::Buffers::Depth);
 
         r.set_model(get_model_matrix(angle));
